@@ -29,6 +29,10 @@ const Home = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  const handleOpenForm = () => {
+    navigate("/register"); // Переход на страницу регистрации
+  };
+
   return (
     <>
       <meta charSet="UTF-8" />
@@ -60,70 +64,13 @@ const Home = () => {
               />
             </div>
             <div className="header-reg">
-              <button id="openFormButton" className="header-reg">
+              <button
+                id="openFormButton"
+                className="header-reg"
+                onClick={handleOpenForm}
+              >
                 Регистрация
               </button>
-              <div
-                className="containerForm"
-                id="signupFormContainer"
-                style={{ display: "none" }}
-              >
-                <h2>Signup Form</h2>
-                <form id="signupForm">
-                  <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      placeholder="Введите ваше имя"
-                      required=""
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Введите ваш email"
-                      required=""
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      type="password"
-                      id="password"
-                      name="password"
-                      placeholder="Введите пароль"
-                      required=""
-                    />
-                    <div className="password-hint" id="passwordHint">
-                      Password must be at least 8 characters long, and include
-                      at least one uppercase letter, one lowercase letter, one
-                      number, and one special character.
-                    </div>
-                    <span id="passwordError" className="error" />
-                    <div className="password-strength" id="passwordStrength" />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Подтвердите пароль"
-                      required=""
-                    />
-                    <span id="confirmPasswordError" className="error" />
-                  </div>
-                  <button className="buttonOpen" type="submit">
-                    Signup
-                  </button>
-                </form>
-                <p id="message" />
-              </div>
             </div>
           </div>
         </div>
