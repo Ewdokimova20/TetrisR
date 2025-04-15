@@ -1,5 +1,6 @@
 // src/components/Home.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Импортируем хук useNavigate
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -29,6 +30,7 @@ const Home = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  const navigate = useNavigate(); // Инициализируем navigate
   const handleOpenForm = () => {
     navigate("/register"); // Переход на страницу регистрации
   };
