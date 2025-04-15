@@ -1,17 +1,17 @@
+// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RegistrationForm from "./components/RegistrationForm";
-import Home from "./pages/Home";
-import Tetris from "./components/Tetris"; // Импортируем компонент Tetris
+import Home from "./pages/Home"; // Импортируем компонент Home
+import RegistrationForm from "./components/RegistrationForm"; // Если используете отдельно
+import './styles.css'; // Импортируйте файл стилей
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/tetris" element={<Tetris />} /> // Предоставляем доступ к
-        Тетрису
+        <Route path="/" element={<Home />} /> {/* Главная страница */}
+        <Route path="/register" element={<RegistrationForm />} />{" "}
+        {/* Страница регистрации */}
       </Routes>
     </Router>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Импортируем хук useNavigate
 import styled from "styled-components"; // Импортируем styled-components
 
 // Стили для компонентов
@@ -147,6 +148,12 @@ const RegistrationForm = () => {
     }
   };
 
+  const navigate = useNavigate(); // Инициализируем navigate
+
+  const handleBack = () => {
+    navigate("/"); // Переход обратно на главную страницу
+  };
+
   return (
     <Container>
       <h2>Регистрация</h2>
@@ -221,6 +228,10 @@ const RegistrationForm = () => {
 
         <Button type="submit">Регистрация</Button>
       </form>
+
+      <Button className="buttonOpen" onClick={handleBack}>
+        Назад
+      </Button>
     </Container>
   );
 };

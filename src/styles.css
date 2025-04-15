@@ -2,3 +2,387 @@
   font-family: sans-serif;
   text-align: center;
 }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 10px 0;
+}
+
+.conteiner {
+  width: 100%;
+  max-width: 1170px;
+  padding: 0 12px;
+  margin: 0 auto;
+}
+
+/* .header {} */
+
+.header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  cursor: pointer;
+  border-radius: 32px;
+}
+
+/* .header-controlsGame {} */
+
+.header-thems,
+.header-controlsGame {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 12px;
+  border: 2px solid #42a1db;
+}
+
+.header-thems img,
+.header-controlsGame img {
+  border-right: 2px solid #000;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.header-thems img:hover,
+.header-controlsGame img:hover {
+  background-color: #42a1db;
+}
+
+.header-thems .T-rex,
+.header-controlsGame .settings {
+  border-right: none;
+}
+
+.header-reg {
+  border: none;
+  padding: 5px;
+  color: #fff;
+  background: #da912c;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.header-reg:hover {
+  background: #a36d23;
+}
+
+.containerForm {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* коррекция положения элемента */
+  transform: translate(-50%, -50%);
+}
+
+.form-group h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  /* Цвет текста меток */
+  font-weight: bold;
+  /* Для выделения текста меток */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+}
+
+.buttonOpen {
+  width: 100%;
+  padding: 10px;
+  background-color: #2c2c2c;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.buttonOpen:hover {
+  background-color: #1e1e1e;
+}
+
+#message {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.password-hint {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 5px;
+  display: none;
+}
+
+.password-strength {
+  margin-top: 5px;
+}
+
+.password-strength div {
+  height: 5px;
+  border-radius: 4px;
+}
+
+.weak {
+  width: 33%;
+  background-color: red;
+}
+
+.medium {
+  width: 66%;
+  background-color: orange;
+}
+
+.strong {
+  width: 100%;
+  background-color: #1e1e1e;
+}
+
+.content {
+  display: flex;
+  /*  align-items: center;  */
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.leftMenu {
+  border: 1px solid red;
+  width: 21%;
+}
+
+.search-box input {
+  margin: 0 5px;
+}
+
+.searchInput {
+  width: 137px;
+  height: 15px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 12px;
+  background: rgb(217, 217, 217);
+  flex-grow: 1;
+  /* Занимает всю доступную ширину */
+  padding: 3px;
+  margin-right: 8px;
+  /* Отступ между полем ввода и иконкой */
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.listUser {
+  display: flex;
+  flex-direction: column;
+  /* Элементы в колонку */
+}
+
+.listUser-li {
+  display: flex;
+  justify-content: space-between;
+  /* Располагает элементы внутри на краях */
+  align-items: center;
+  /* Выравнивание по центру */
+  margin: 0px 0px 8px 5px;
+  width: 98%;
+  /* Занимает всю ширину родителя */
+}
+
+.listUser-li button,
+.classick button {
+  background: rgb(66, 71, 219);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  padding: 5px;
+  width: auto;
+}
+
+.iconStatus {
+  display: flex;
+  align-items: center;
+  /* Центрируем иконки по горизонтали */
+  justify-content: center;
+  margin-bottom: 16px;
+  /* Отступ снизу */
+}
+
+.iconStatus hr {
+  width: 2px;
+  /* Устанавливаем ширину вертикальной линии */
+  height: 24px;
+  /* Устанавливаем высоту вертикальной линии */
+  background-color: #000;
+  /* Цвет линии */
+  border: none;
+  /* Убрать стандартные стили для hr */
+  margin: 0 8px;
+  /* Отступы между иконками и линией */
+}
+
+.main {
+  width: 79%;
+  margin: 0 5px;
+}
+
+.classick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 120px;
+}
+
+.classick button {
+  width: 75px;
+  height: 21px;
+  margin-left: 20px;
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+}
+
+.section1 {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  height: 130px;
+}
+
+.main hr {
+  border: 2px solid #000;
+  width: 70%;
+  flex-grow: 1;
+  /* Чтобы блок занимал оставшееся пространство */
+}
+
+.info {
+  margin-bottom: 0;
+}
+
+.sections {
+  display: flex;
+  /* Горизонтальное расположение секций */
+  justify-content: flex-start;
+  /* Распределение секций */
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  /* Выравнивание иконки и текста по вертикали */
+  justify-content: center;
+  padding: 5px;
+  /* Отступы вокруг секции */
+  cursor: pointer;
+  /* Курсор для интерактивности */
+  transition: background-color 0.3s;
+  /* Плавный переход цвета фона */
+  width: auto;
+  /* Автоматическая ширина секций */
+  border: 1px solid black;
+  border-top-left-radius: 18px;
+  /* Закругление верхнего левого угла */
+  border-top-right-radius: 18px;
+  /* Закругление верхнего правого угла */
+}
+
+.section:hover {
+  background-color: #f0f0f0;
+  /* Фон при наведении */
+}
+
+.icon {
+  margin-right: 10px;
+  /* Отступ между иконкой и текстом */
+  width: 20px;
+  /* Ширина иконки */
+  height: 20px;
+  /* Высота иконки */
+}
+
+.selected {
+  width: auto;
+  /* Автоматическая ширина у активной секции */
+}
+
+.selected .section-text {
+  display: inline;
+  /* Показываем текст для выбранной секции */
+}
+
+.section-text {
+  display: none;
+  /* Скрываем текст для невыбранных секций по умолчанию */
+}
+
+/* .selected .icon {
+    content: url('img/selected-icon.svg'); /* Иконка для выбранной секции 
+}
+*/
+
+*/ .content {
+  margin-top: 20px;
+  /* Отступ сверху для контента */
+  padding: 10px;
+  /* Отступы внутри блока с контентом */
+  border: 1px solid #ccc;
+  /* Граница блока с контентом */
+  min-height: 40px;
+  /* Минимальная высота для контента */
+}
+
+.text {
+  border-top: 1px solid black;
+  margin-top: 0px;
+}
+
+@media (max-width: 1200px) {
+  .conteiner {
+    max-width: 930px;
+  }
+}
+
+@media (max-width: 991px) {
+  .conteiner {
+    max-width: 730px;
+  }
+}
+
+@media (max-width: 786px) {
+  .conteiner {
+    max-width: 100%;
+  }
+}
+
+/* 400 */
