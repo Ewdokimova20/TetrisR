@@ -57,8 +57,8 @@ const Home = () => {
               />
             </div>
             <div className="header-thems">
-              <img src="img/header/sun.svg" alt="play" />
-              <img src="img/header/moon.svg" alt="pause" />
+              <img src="img/header/sun.svg" alt="whiteThem" />
+              <img src="img/header/moon.svg" alt="darkThem" />
               <img
                 className="T-rex"
                 src="img/header/T-Rex.svg"
