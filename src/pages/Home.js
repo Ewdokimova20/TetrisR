@@ -1,6 +1,8 @@
 // src/components/Home.js
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, Component } from "react";
 import styled from "styled-components";
+import PauseModal from "./component/PauseModal";
+import SettingsMenu from "./component/SettingsMenu";
 
 const sectionsData = [
   { id: 1, text: "Раздел 1", icon: "img/info/comments.svg" },
@@ -36,6 +38,34 @@ const SignupFormContainer = styled.div`
 `;
 
 const Home = () => {
+  // Состояние для управления паузой и видимостью настроек
+  const [isPaused, setIsPaused] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Функция для переключения состояния паузы
+  const togglePause = () => {
+    setIsPaused((prev) => !prev);
+  };
+
+  // Функция для переключения видимости настроек
+  const toggleSettings = () => {
+    setSettingsVisible((prev) => !prev);
+  };
+
+  // Функция для переключения темы
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+    document.body.classList.toggle("dark-theme", !isDarkTheme); // Добавляем класс для переключения темы
+  };
+
+  const redirectToTetris = () => {
+    window.location.href = "https://tetris94.ru"; // Перенаправление на T-Rex
+  };
+
+  const closePause = () => setIsPaused(false);
+  const closeSettings = () => setSettingsVisible(false);
+
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const toggleFormVisibility = () => {
@@ -60,23 +90,50 @@ const Home = () => {
               <img className="logo" src="img/logo.svg" alt="logo" />
             </div>
             <div className="header-controlsGame">
-              <img src="img/header/play.svg" alt="play" />
-              <img src="img/header/pause.svg" alt="pause" />
+              <img
+                src="img/header/play.svg"
+                alt="play"
+                onClick={() => {
+                  if (isPaused) {
+                    togglePause();
+                  }
+                }}
+                style={{ cursor: isPaused ? "pointer" : "not-allowed" }}
+              />
+              <img
+                src="img/header/pause.svg"
+                alt="pause"
+                onClick={togglePause}
+                style={{ cursor: "pointer" }}
+              />
               <img
                 className="settings"
                 src="img/header/settings.svg"
                 alt="settings"
+                onClick={toggleSettings}
+                style={{ cursor: "pointer" }}
               />
             </div>
             <div className="header-thems">
-              <img src="img/header/sun.svg" alt="whiteThem" />
-              <img src="img/header/moon.svg" alt="darkThem" />
+              <img
+                src="img/header/sun.svg"
+                alt="whiteThem"
+                onClick={toggleTheme}
+              />
+              <img
+                src="img/header/moon.svg"
+                alt="darkThem"
+                onClick={toggleTheme}
+              />
               <img
                 className="T-rex"
                 src="img/header/T-Rex.svg"
-                alt="settings"
+                alt="T-rex"
+                onClick={redirectToTetris}
               />
             </div>
+            {isPaused && <PauseOverlay onClose={closePause} />}
+            {settingsVisible && <SettingsPanel onClose={closeSettings} />}
             <div className="header-reg">
               <button
                 id="openFormButton"
