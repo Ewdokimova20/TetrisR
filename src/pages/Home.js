@@ -1,7 +1,19 @@
 // src/components/Home.js
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Импортируем хук useNavigate
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+
+const sectionsData = [
+  { id: 1, text: "Раздел 1", icon: "img/info/comments.svg" },
+  { id: 2, text: "Раздел 2", icon: "img/info/list.svg" },
+  { id: 3, text: "Раздел 3", icon: "img/info/info.svg" },
+  { id: 4, text: "Раздел 4", icon: "img/info/versions.svg" },
+];
+
+const [selectedSectionId, setSelectedSectionId] = useState(1);
+
+const handleSelectSection = (id) => {
+  setSelectedSectionId(id);
+};
 
 const Container = styled.div`
   .header {
@@ -172,29 +184,39 @@ const Home = () => {
         {/* content */}
       </div>{" "}
       {/* conteiner */}
-      <div className="conteiner ">
+      <div className="conteiner">
         <div className="content info">
           <div className="sections">
-            <div className="section selected" onclick="selectSection(this)">
-              <img src="img/info/comments.svg" className="icon" />
-              <span className="section-text">Раздел 1</span>
-            </div>
-            <div className="section" onclick="selectSection(this)">
-              <img src="img/info/list.svg" className="icon" />
-              <span className="section-text">Раздел 2</span>
-            </div>
-            <div className="section" onclick="selectSection(this)">
-              <img src="img/info/info.svg" className="icon" />
-              <span className="section-text">Раздел 3</span>
-            </div>
-            <div className="section" onclick="selectSection(this)">
-              <img src="img/info/versions.svg" className="icon" />
-              <span className="section-text">Раздел 4</span>
-            </div>
+            {sectionsData.map((section) => (
+              <div
+                key={section.id}
+                className={`section ${
+                  selectedSectionId === section.id ? "selected" : ""
+                }`}
+                onClick={() => handleSelectSection(section.id)}
+                style={{
+                  display: "inline-block",
+                  cursor: "pointer",
+                  padding: "10px",
+                  border:
+                    selectedSectionId === section.id
+                      ? "2px solid blue"
+                      : "none",
+                }}
+              >
+                <img src={section.icon} className="icon" alt={section.text} />
+                {selectedSectionId === section.id && (
+                  <span className="section-text">{section.text}</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
         <div className="content text">
-          <p id="content-text">Вы выбрали: Раздел 1</p>
+          <p id="content-text">
+            Вы выбрали:{" "}
+            {sectionsData.find((sec) => sec.id === selectedSectionId).text}
+          </p>
         </div>
       </div>
       <footer className="conteiner">Footer</footer>

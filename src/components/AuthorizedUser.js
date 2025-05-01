@@ -14,7 +14,7 @@ const FormContainer = styled.div`
   position: relative;
   width: 320px;
   min-width: 320px;
-  height: 322px;
+  height: auto;
 
   background: #ffffff;
   border: 1px solid #d9d9d9;
@@ -22,7 +22,14 @@ const FormContainer = styled.div`
 `;
 
 const Title = styled.h2`
-  margin: 0; /* убираем внешние отступы */
+  margin: 0 0 10px 0; /* убираем внешние отступы */
+`;
+
+const Label = styled.label`
+  display: flex;
+  flex-decoration: column;
+  font-size: 14px;
+  margin-button: 8px;
 `;
 
 const InputField = styled.input`
@@ -41,6 +48,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 
   &:hover {
     background: #1e1e1e;
@@ -48,6 +56,7 @@ const Button = styled.button`
 `;
 
 const ForgotPassword = styled.a`
+  align-self: left;
   font-size: 14px;
   color: #0066cc;
   text-decoration: underline;
