@@ -1,8 +1,8 @@
 // src/components/Home.js
-import React, { useState, useRef, useEffect, Component } from "react";
+import React, { useState, useRef, useEffect, useNavigate } from "react";
 import styled from "styled-components";
-import PauseModal from "./component/PauseModal";
-import SettingsMenu from "./component/SettingsMenu";
+import PauseModal from "../components/PauseModal";
+import SettingsMenu from "../components/SettingsMenu";
 
 const sectionsData = [
   { id: 1, text: "Раздел 1", icon: "img/info/comments.svg" },
@@ -10,12 +10,6 @@ const sectionsData = [
   { id: 3, text: "Раздел 3", icon: "img/info/info.svg" },
   { id: 4, text: "Раздел 4", icon: "img/info/versions.svg" },
 ];
-
-const [selectedSectionId, setSelectedSectionId] = useState(1);
-
-const handleSelectSection = (id) => {
-  setSelectedSectionId(id);
-};
 
 const Container = styled.div`
   .header {
@@ -38,6 +32,12 @@ const SignupFormContainer = styled.div`
 `;
 
 const Home = () => {
+  const [selectedSectionId, setSelectedSectionId] = useState(1);
+
+  const handleSelectSection = (id) => {
+    setSelectedSectionId(id);
+  };
+
   // Состояние для управления паузой и видимостью настроек
   const [isPaused, setIsPaused] = useState(false);
   const [settingsVisible, setSettingsVisible] = useState(false);
