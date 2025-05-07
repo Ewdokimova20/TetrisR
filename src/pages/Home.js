@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect, useNavigate } from "react";
 import styled from "styled-components";
 import PauseModal from "../components/PauseModal";
 import SettingsMenu from "../components/SettingsMenu";
+import { initUserStatus } from "../userStatus.js";
+import { setupInviteModal } from "../inviteModal.js";
 
 const sectionsData = [
   { id: 1, text: "Раздел 1", icon: "img/info/comments.svg" },
@@ -33,40 +35,44 @@ const SignupFormContainer = styled.div`
 
 const Home = () => {
   const [selectedSectionId, setSelectedSectionId] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false); // управление отображением модалки
 
+  // Refs для модалки
+  const inviteModalRef = useRef(null);
+
+  // Инициализация при монтировании
+  useEffect(() => {
+    initUserStatus(".listUser", "wss://yourserver.com/ws/online-status");
+    setupInviteModal(openInviteModal, closeInviteModal);
+  }, []);
+
+  // функции открытия/закрытия модалки
+  const openInviteModal = () => setShowModal(true);
+  const closeInviteModal = () => setShowModal(false);
+
+  // обработчики для вкладок
   const handleSelectSection = (id) => {
     setSelectedSectionId(id);
   };
 
-  // Состояние для управления паузой и видимостью настроек
-  const [isPaused, setIsPaused] = useState(false);
-  const [settingsVisible, setSettingsVisible] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
-  // Функция для переключения состояния паузы
-  const togglePause = () => {
-    setIsPaused((prev) => !prev);
-  };
-
-  // Функция для переключения видимости настроек
-  const toggleSettings = () => {
-    setSettingsVisible((prev) => !prev);
-  };
-
-  // Функция для переключения темы
+  // остальные функции
+  const togglePause = () => setIsPaused((prev) => !prev);
+  const toggleSettings = () => setSettingsVisible((prev) => !prev);
   const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-    document.body.classList.toggle("dark-theme", !isDarkTheme); // Добавляем класс для переключения темы
+    setIsDarkTheme((prev) => {
+      document.body.classList.toggle("dark-theme", !prev);
+      return !prev;
+    });
   };
-
   const redirectToTetris = () => {
-    window.location.href = "https://tetris94.ru"; // Перенаправление на T-Rex
+    window.location.href = "https://tetris94.ru";
   };
-
-  const closePause = () => setIsPaused(false);
-  const closeSettings = () => setSettingsVisible(false);
-
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const openForm = () => setIsFormVisible(true);
+  const closeForm = () => setIsFormVisible(false);
 
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
@@ -162,17 +168,7 @@ const Home = () => {
               />
               <img src="img/search.svg" alt="" />
             </div>
-            <div className="listUser">
-              <div className="listUser-li">
-                <span>nikName</span>
-                <button>Оффлайн</button>
-              </div>
-              <div className="listUser-li">
-                <span>anotherUser</span>
-                <button>Онлайн</button>
-              </div>
-              {/* Добавьте дополнительные элементы списка по мере необходимости */}
-            </div>
+            <div className="listUser"></div>
           </div>
           <div className="main">
             <div className="classick">
@@ -226,21 +222,12 @@ const Home = () => {
               />
               <img src="img/search.svg" alt="" />
             </div>
-            <div className="listUser">
-              <div className="listUser-li">
-                <span>nikName</span>
-                <button>Оффлайн</button>
-              </div>
-              <div className="listUser-li">
-                <span>anotherUser</span>
-                <button>Онлайн</button>
-              </div>
-            </div>
+            <div className="listUser"></div>
           </div>
-        </div>{" "}
-        {/* content */}
-      </div>{" "}
-      {/* conteiner */}
+          {/* content */}
+        </div>
+        {/* conteiner */}
+      </div>
       <div className="conteiner">
         <div className="content info">
           <div className="sections">
@@ -277,7 +264,73 @@ const Home = () => {
         </div>
       </div>
       <footer className="conteiner">Footer</footer>
-      {/*  */}
+      {/* Модальное окно приглашения */}
+      {showModal && (
+        <div
+          ref={inviteModalRef}
+          style={{
+            display: "flex",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.5)",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "8px",
+              maxWidth: "400px",
+              width: "90%",
+            }}
+          >
+            <h3 id="modalTitle">Пригласить в игру</h3>
+            <div id="modeButtons">
+              <button
+                data-mode="classic"
+                onClick={() => setSelectedMode("classic")}
+              >
+                Классика
+              </button>
+              <button
+                data-mode="batlClassik"
+                onClick={() => setSelectedMode("batlClassik")}
+              >
+                На время
+              </button>
+              <button
+                data-mode="batlSession"
+                onClick={() => setSelectedMode("batlSession")}
+              >
+                Командная
+              </button>
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <button onClick={() => alert("Приглашение отправлено")}>
+                Отправить приглашение
+              </button>
+              <button onClick={closeInviteModal}>Отмена</button>
+            </div>
+            <div
+              style={{ marginTop: "10px", color: "blue", fontWeight: "bold" }}
+            >
+              {/* Можно отображать статус отправки */}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
