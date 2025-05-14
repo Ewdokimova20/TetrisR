@@ -1,5 +1,6 @@
 // src/components/Home.js
-import React, { useState, useRef, useEffect, useNavigate } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PauseModal from "../components/PauseModal";
 import SettingsMenu from "../components/SettingsMenu";
@@ -46,7 +47,10 @@ const Home = () => {
 
   // Инициализация при монтировании
   useEffect(() => {
-    initUserStatus(".listUser", "wss://yourserver.com/ws/online-status");
+    const listUser = document.querySelector(".listUser");
+    if (listUser) {
+      initUserStatus(".listUser", "wss://yourserver.com/ws/online-status");
+    }
     setupInviteModal(openInviteModal, closeInviteModal);
   }, []);
 
