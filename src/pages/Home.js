@@ -1,13 +1,341 @@
-// src/pages/Home.js
+// src/components/Home.js
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import PauseModal from "../components/PauseModal";
+import SettingsMenu from "../components/SettingsMenu";
+import { initUserStatus } from "../userStatus.js";
+import { setupInviteModal } from "../inviteModal.js";
 
-import React from "react";
+const sectionsData = [
+  { id: 1, text: "Раздел 1", icon: "img/info/comments.svg" },
+  { id: 2, text: "Раздел 2", icon: "img/info/list.svg" },
+  { id: 3, text: "Раздел 3", icon: "img/info/info.svg" },
+  { id: 4, text: "Раздел 4", icon: "img/info/versions.svg" },
+];
+
+const Container = styled.div`
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+const SignupFormContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 const Home = () => {
+  const [selectedSectionId, setSelectedSectionId] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
+  const [settingsVisible, setSettingsVisible] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false); // управление отображением модалки
+
+  // Refs для модалки
+  const inviteModalRef = useRef(null);
+
+  // Инициализация при монтировании
+  useEffect(() => {
+    const listUser = document.querySelector(".listUser");
+    if (listUser) {
+      initUserStatus(".listUser", "wss://yourserver.com/ws/online-status");
+    }
+    setupInviteModal(openInviteModal, closeInviteModal);
+  }, []);
+
+  // функции открытия/закрытия модалки
+  const openInviteModal = () => setShowModal(true);
+  const closeInviteModal = () => setShowModal(false);
+
+  // обработчики для вкладок
+  const handleSelectSection = (id) => {
+    setSelectedSectionId(id);
+  };
+
+  // остальные функции
+  const togglePause = () => setIsPaused((prev) => !prev);
+  const toggleSettings = () => setSettingsVisible((prev) => !prev);
+  const toggleTheme = () => {
+    setIsDarkTheme((prev) => {
+      document.body.classList.toggle("dark-theme", !prev);
+      return !prev;
+    });
+  };
+  const redirectToTetris = () => {
+    window.location.href = "https://tetris94.ru";
+  };
+  const openForm = () => setIsFormVisible(true);
+  const closeForm = () => setIsFormVisible(false);
+
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
+  };
+
+  const navigate = useNavigate(); // Инициализируем navigate
+  const handleOpenForm = () => {
+    navigate("/register"); // Переход на страницу регистрации
+  };
+
   return (
-    <div>
-      <h1>Добро пожаловать на главную страницу!</h1>
-      <p>Это домашняя страница вашего приложения.</p>
-    </div>
+    <>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="./style.css" />
+      <title>Tetris</title>
+      <header className="header">
+        <div className="conteiner">
+          <div className="header-box">
+            <div className="header-logo">
+              <img className="logo" src="img/logo.svg" alt="logo" />
+            </div>
+            <div className="header-controlsGame">
+              <img
+                src="img/header/play.svg"
+                alt="play"
+                onClick={() => {
+                  if (isPaused) {
+                    togglePause();
+                  }
+                }}
+                style={{ cursor: isPaused ? "pointer" : "not-allowed" }}
+              />
+              <img
+                src="img/header/pause.svg"
+                alt="pause"
+                onClick={togglePause}
+                style={{ cursor: "pointer" }}
+              />
+              <img
+                className="settings"
+                src="img/header/settings.svg"
+                alt="settings"
+                onClick={toggleSettings}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+            <div className="header-thems">
+              <img
+                src="img/header/sun.svg"
+                alt="whiteThem"
+                onClick={toggleTheme}
+              />
+              <img
+                src="img/header/moon.svg"
+                alt="darkThem"
+                onClick={toggleTheme}
+              />
+              <img
+                className="T-rex"
+                src="img/header/T-Rex.svg"
+                alt="T-rex"
+                onClick={redirectToTetris}
+              />
+            </div>
+            {isPaused && <PauseOverlay onClose={closePause} />}
+            {settingsVisible && <SettingsPanel onClose={closeSettings} />}
+            <div className="header-reg">
+              <button
+                id="openFormButton"
+                className="header-reg"
+                onClick={handleOpenForm}
+              >
+                Регистрация
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div className="conteiner ">
+        <div className="content">
+          <div className="leftMenu">
+            <div className="iconStatus">
+              <img src="img/online.svg" alt="online" />
+              <hr />
+              <img src="img/inGame.svg" alt="" />
+            </div>
+            <div className="search-box">
+              <input
+                type="text"
+                className="searchInput"
+                placeholder="Введите nikName"
+              />
+              <img src="img/search.svg" alt="" />
+            </div>
+            <div className="listUser"></div>
+          </div>
+          <div className="main">
+            <div className="classick">
+              <div className="iconG">
+                <img src="img/iconRegim.svg" alt="iconRegim" />
+              </div>
+              <button>Оффлайн</button>
+            </div>
+            <hr />
+            <div className="section1">
+              <div className="classick">
+                <div className="iconG">
+                  <img src="img/iconRegim.svg" alt="iconRegim" />
+                </div>
+                <button>Оффлайн</button>
+              </div>
+              <div className="classick">
+                <div className="iconG">
+                  <img src="img/iconRegim.svg" alt="iconRegim" />
+                </div>
+                <button>Оффлайн</button>
+              </div>
+            </div>
+            <hr />
+            <div className="section1">
+              <div className="classick">
+                <div className="iconG">
+                  <img src="img/iconRegim.svg" alt="iconRegim" />
+                </div>
+                <button>Оффлайн</button>
+              </div>
+              <div className="classick">
+                <div className="iconG">
+                  <img src="img/iconRegim.svg" alt="iconRegim" />
+                </div>
+                <button>Оффлайн</button>
+              </div>
+            </div>
+          </div>
+          <div className="leftMenu">
+            <div className="iconStatus">
+              <img src="img/online.svg" alt="online" />
+              <hr />
+              <img src="img/inGame.svg" alt="" />
+            </div>
+            <div className="search-box">
+              <input
+                type="text"
+                className="searchInput"
+                placeholder="Введите nikName"
+              />
+              <img src="img/search.svg" alt="" />
+            </div>
+            <div className="listUser"></div>
+          </div>
+          {/* content */}
+        </div>
+        {/* conteiner */}
+      </div>
+      <div className="conteiner">
+        <div className="content info">
+          <div className="sections">
+            {sectionsData.map((section) => (
+              <div
+                key={section.id}
+                className={`section ${
+                  selectedSectionId === section.id ? "selected" : ""
+                }`}
+                onClick={() => handleSelectSection(section.id)}
+                style={{
+                  display: "inline-block",
+                  cursor: "pointer",
+                  padding: "10px",
+                  border:
+                    selectedSectionId === section.id
+                      ? "2px solid blue"
+                      : "none",
+                }}
+              >
+                <img src={section.icon} className="icon" alt={section.text} />
+                {selectedSectionId === section.id && (
+                  <span className="section-text">{section.text}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="content text">
+          <p id="content-text">
+            Вы выбрали:{" "}
+            {sectionsData.find((sec) => sec.id === selectedSectionId).text}
+          </p>
+        </div>
+      </div>
+      <footer className="conteiner">Footer</footer>
+      {/* Модальное окно приглашения */}
+      {showModal && (
+        <div
+          ref={inviteModalRef}
+          style={{
+            display: "flex",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.5)",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "20px",
+              borderRadius: "8px",
+              maxWidth: "400px",
+              width: "90%",
+            }}
+          >
+            <h3 id="modalTitle">Пригласить в игру</h3>
+            <div id="modeButtons">
+              <button
+                data-mode="classic"
+                onClick={() => setSelectedMode("classic")}
+              >
+                Классика
+              </button>
+              <button
+                data-mode="batlClassik"
+                onClick={() => setSelectedMode("batlClassik")}
+              >
+                На время
+              </button>
+              <button
+                data-mode="batlSession"
+                onClick={() => setSelectedMode("batlSession")}
+              >
+                Командная
+              </button>
+            </div>
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <button onClick={() => alert("Приглашение отправлено")}>
+                Отправить приглашение
+              </button>
+              <button onClick={closeInviteModal}>Отмена</button>
+            </div>
+            <div
+              style={{ marginTop: "10px", color: "blue", fontWeight: "bold" }}
+            >
+              {/* Можно отображать статус отправки */}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
